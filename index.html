@@ -143,6 +143,32 @@
       color: #0b0a06;
     }
 
+    /* Name overlay – positioned over the card front Type */
+    .name-overlay-ct {
+      position: absolute;
+      /* Fine-tune to match print "To:" field on v-card-1.jpeg */
+      top: 77.5%;
+      left: 36%;
+      width: 42%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      gap: .1em;
+    }
+    .name-overlay-ct .n-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: clamp(.85rem, 1.9vw, 1.55rem);
+      color: #0b0a06;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+    .name-overlay-ct .n-type {
+      font-size: clamp(.7rem, 1.3vw, 1.05rem);
+      color: #0b0a06;
+    }
+
     /* ── DETAILS SECTION ────────────────────────── */
     #details {
       background: linear-gradient(150deg, var(--dark) 0%, var(--navy) 55%, #1a2a45 100%);
@@ -254,16 +280,16 @@
     /* ── RESPONSIVE ─────────────────────────────── */
     @media (max-width: 600px) {
       .name-overlay {
-        top: 61%;
-        left: 31%;
+        top: 74%;
+        left: 36%;
         width: 54%;
       }
       .details-inner { padding: 2rem 1.1rem 2.4rem; }
     }
     @media (max-width: 400px) {
       .name-overlay {
-        top: 51%;
-        left: 41%;
+        top: 73%;
+        left: 36%;
         width: 56%;
       }
     }
@@ -295,6 +321,10 @@
           >
           <div class="name-overlay">
             <span class="n-name" id="cardName"></span>
+            <!-- <span class="n-type" id="cardType"></span> -->
+          </div>
+          <div class="name-overlay-ct">
+            <!-- <span class="n-name" id="cardName"></span> -->
             <span class="n-type" id="cardType"></span>
           </div>
         </div>
