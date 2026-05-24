@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invitation Link Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold: #c9a84c;
+      --gold-dim: #9a7a30;
+      --rose: #b76e79;
+      --cream: #faf8f2;
+      --cream2: #f0ebe0;
+      --brown: #3e342a;
+      --dark: #141427;
+      --navy: #0d2d52;
+    }
+
+    body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      background: linear-gradient(150deg, var(--dark) 0%, var(--navy) 60%, #1a2a45 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      background: rgba(255,255,255,.07);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1.5px solid rgba(201,168,76,.3);
+      border-radius: 20px;
+      padding: 2.8rem 2.2rem 3rem;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.45);
+      color: var(--cream);
+      text-align: center;
+    }
+
+    .title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3rem;
+      color: var(--gold);
+      margin-bottom: .2rem;
+      text-shadow: 0 0 30px rgba(201,168,76,.35);
+    }
+    .subtitle {
+      font-size: .88rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: rgba(250,248,242,.5);
+      margin-bottom: 2.2rem;
+    }
+
+    .divider { width: 50px; height: 1px; background: linear-gradient(90deg,transparent,var(--gold),transparent); margin: 0 auto 2rem; }
+
+    label {
+      display: block;
+      text-align: left;
+      font-size: .8rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: rgba(250,248,242,.55);
+      margin-bottom: .45rem;
+      margin-top: 1.2rem;
+    }
+    label:first-of-type { margin-top: 0; }
+
+    input[type="text"], input[type="url"], select {
+      width: 100%;
+      padding: .75rem 1rem;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(201,168,76,.25);
+      border-radius: 8px;
+      color: var(--cream);
+      font-family: inherit;
+      font-size: 1.1rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    input[type="text"]:focus, input[type="url"]:focus, select:focus {
+      border-color: var(--gold);
+    }
+    input::placeholder { color: rgba(250,248,242,.3); }
+    select option { background: var(--dark); color: var(--cream); }
+
+    .btn-row { display: flex; gap: .8rem; margin-top: 1.8rem; flex-wrap: wrap; }
+
+    button {
+      flex: 1;
+      min-width: 120px;
+      padding: .82rem 1rem;
+      border: none;
+      border-radius: 9px;
+      font-family: inherit;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s;
+    }
+    button:active { transform: scale(.97); }
+
+    .btn-gen {
+      background: linear-gradient(135deg, var(--gold) 0%, #a8832a 100%);
+      color: #1a1000;
+      font-weight: 600;
+      letter-spacing: .06em;
+      box-shadow: 0 4px 18px rgba(201,168,76,.35);
+    }
+    .btn-gen:hover { box-shadow: 0 6px 26px rgba(201,168,76,.55); }
+
+    .btn-wa {
+      background: #25d366;
+      color: #fff;
+      font-weight: 600;
+    }
+    .btn-wa:hover { background: #1fb356; }
+
+    .output-box {
+      margin-top: 1.6rem;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(201,168,76,.2);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      text-align: left;
+      display: none;
+    }
+    .output-box .out-label {
+      font-size: .72rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: .5rem;
+    }
+    .out-link {
+      font-size: .92rem;
+      color: var(--cream);
+      word-break: break-all;
+      line-height: 1.5;
+    }
+    .copy-btn {
+      margin-top: .75rem;
+      width: 100%;
+      padding: .6rem;
+      background: rgba(201,168,76,.15);
+      border: 1px solid rgba(201,168,76,.3);
+      border-radius: 7px;
+      color: var(--gold);
+      font-size: .9rem;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .copy-btn:hover { background: rgba(201,168,76,.28); }
+    .copy-btn.copied { background: rgba(37,211,102,.18); border-color: #25d366; color: #25d366; }
+
+    .preview-note {
+      margin-top: 1rem;
+      font-size: .82rem;
+      color: rgba(250,248,242,.4);
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h1 class="title">Invitation</h1>
+  <p class="subtitle">Link Generator</p>
+  <div class="divider"></div>
+
+  <label for="baseUrl">Base URL (your deployed index.html)</label>
+  <input type="url" id="baseUrl" placeholder="https://your-site.com/index.html" value="">
+
+  <label for="guestName">Guest Name</label>
+  <input type="text" id="guestName" placeholder="e.g. Ramesh Sharma" autocomplete="off">
+
+  <label for="guestType">Invitation Type</label>
+  <select id="guestType">
+    <option value="">— No suffix —</option>
+    <option value="family">With Family</option>
+    <option value="single">Single (Only)</option>
+  </select>
+
+  <div class="btn-row">
+    <button class="btn-gen" onclick="generate()">✦ Generate Link</button>
+    <button class="btn-wa" id="waBtn" style="display:none" onclick="shareWA()">WhatsApp ↗</button>
+  </div>
+
+  <div class="output-box" id="outputBox">
+    <p class="out-label">Your personalised link</p>
+    <p class="out-link" id="outLink"></p>
+    <button class="copy-btn" id="copyBtn" onclick="copyLink()">Copy Link</button>
+  </div>
+
+  <p class="preview-note" id="previewNote"></p>
+</div>
+
+<script>
+  var generatedUrl = '';
+
+  function generate() {
+    var base   = document.getElementById('baseUrl').value.trim();
+    var name   = document.getElementById('guestName').value.trim();
+    var type   = document.getElementById('guestType').value;
+
+    if (!base) { alert('Please enter the base URL of your invitation page.'); return; }
+    if (!name) { alert('Please enter a guest name.'); return; }
+
+    // Build URL
+    var url = new URL(base);
+    url.searchParams.set('to', name);
+    if (type) url.searchParams.set('type', type);
+
+    generatedUrl = url.toString();
+
+    // Show output
+    document.getElementById('outLink').textContent = generatedUrl;
+    document.getElementById('outputBox').style.display = 'block';
+
+    var copyBtn = document.getElementById('copyBtn');
+    copyBtn.textContent = 'Copy Link';
+    copyBtn.className = 'copy-btn';
+
+    document.getElementById('waBtn').style.display = '';
+    document.getElementById('previewNote').textContent = 'Preview: open the link above in a new tab ↗';
+  }
+
+  function copyLink() {
+    if (!generatedUrl) return;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(generatedUrl).then(function () { markCopied(); });
+    } else {
+      // fallback
+      var ta = document.createElement('textarea');
+      ta.value = generatedUrl;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      markCopied();
+    }
+  }
+
+  function markCopied() {
+    var btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copied!';
+    btn.className = 'copy-btn copied';
+    setTimeout(function () {
+      btn.textContent = 'Copy Link';
+      btn.className = 'copy-btn';
+    }, 2200);
+  }
+
+  function shareWA() {
+    if (!generatedUrl) return;
+    var name = document.getElementById('guestName').value.trim();
+    var msg  = 'Dear ' + name + ', you are cordially invited to Vikas & Kajal\'s wedding! 🌸\n\n' + generatedUrl;
+    window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+  }
+
+  // Try to auto-fill base URL from current page location
+  (function () {
+    var origin = location.origin + location.pathname.replace('home.html', 'index.html');
+    document.getElementById('baseUrl').value = origin;
+  })();
+</script>
+</body>
+</html>

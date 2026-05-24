@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wedding Invitation</title>
+
+  <!-- Open Graph / WhatsApp Preview -->
+  <meta property="og:title" content="You're Invited to Vikas & Kajal's Wedding" />
+  <meta property="og:description" content="Join us on Wednesday, July 07th, 2026 at Shehnai Guest House, Lucknow" />
+  <meta property="og:image" content="https://muhandisryan.github.io/wedding-invitation/assets/thumbnail.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts: preload critical, lazy-load rest -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── RESET & TOKENS ─────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold:      #c9a84c;
+      --gold-dim:  #9a7a30;
+      --rose:      #b76e79;
+      --cream:     #faf8f2;
+      --cream2:    #f3efe4;
+      --brown:     #3e342a;
+      --dark:      #141427;
+      --navy:      #0d2d52;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      background: var(--cream);
+      color: var(--brown);
+      overflow-x: hidden;
+    }
+
+    /* ── GREETING BANNER ────────────────────────── */
+    #greeting {
+      background: linear-gradient(160deg, var(--cream) 0%, var(--cream2) 100%);
+      text-align: center;
+      padding: 2.2rem 1rem 1.6rem;
+      border-bottom: 1px solid rgba(201,168,76,.25);
+      will-change: opacity;
+      animation: fadeUp .9s ease both;
+    }
+    #greeting .label {
+      font-size: clamp(.75rem, 2vw, .9rem);
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: .55rem;
+    }
+    #greeting .guest-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.6rem, 8vw, 4.6rem);
+      color: var(--gold);
+      line-height: 1.1;
+      text-shadow: 0 2px 20px rgba(201,168,76,.25);
+    }
+    #greeting .tagline {
+      margin-top: .5rem;
+      font-size: clamp(.85rem, 2.2vw, 1.1rem);
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--brown);
+      opacity: .65;
+    }
+
+    /* ── CARD SECTION ───────────────────────────── */
+    #cards {
+      background: var(--cream2);
+      padding: 1.6rem .8rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .card-frame {
+      width: 100%;
+      max-width: 1080px;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,.13), 0 2px 8px rgba(0,0,0,.06);
+      border: 1px solid rgba(201,168,76,.18);
+      animation: fadeUp .9s .15s ease both;
+    }
+
+    /* Two-column top row */
+    .card-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .card-row-full { width: 100%; border-top: 1px solid rgba(0,0,0,.08); }
+
+    /* Individual card panel */
+    .card-panel {
+      position: relative;
+      overflow: hidden;
+      line-height: 0; /* remove bottom gap under img */
+    }
+    .card-panel img {
+      width: 100%;
+      height: 100%;
+      /* object-fit: cover; */
+      transition: transform 0.5s ease;
+      display: block;
+      /* lazy-load handled via attribute; no JS needed */
+    }
+
+    /* Name overlay – positioned over the card front */
+    .name-overlay {
+      position: absolute;
+      /* Fine-tune to match print "To:" field on v-card-1.jpeg */
+      top: 74%;
+      left: 36%;
+      width: 42%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      gap: .1em;
+    }
+    .name-overlay .n-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: clamp(.85rem, 1.9vw, 1.55rem);
+      color: #0b0a06;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+    .name-overlay .n-type {
+      font-size: clamp(.7rem, 1.3vw, 1.05rem);
+      color: #0b0a06;
+    }
+
+    /* ── DETAILS SECTION ────────────────────────── */
+    #details {
+      background: linear-gradient(150deg, var(--dark) 0%, var(--navy) 55%, #1a2a45 100%);
+      color: var(--cream);
+      padding: 4rem 1.2rem 4.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    /* subtle dot pattern */
+    #details::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(201,168,76,.12) 1px, transparent 1px);
+      background-size: 44px 44px;
+      pointer-events: none;
+    }
+    /* ambient glow blobs */
+    #details::after {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 55% 40% at 15% 35%, rgba(201,168,76,.18) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 35% at 82% 68%, rgba(183,110,121,.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .details-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(201,168,76,.35);
+      border-radius: 18px;
+      padding: 2.8rem 2rem 3rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      animation: fadeUp .9s .25s ease both;
+    }
+
+    .couple {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      color: var(--gold);
+      margin-bottom: 2rem;
+      text-shadow: 0 0 30px rgba(201,168,76,.4);
+    }
+
+    .divider {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 1.4rem auto;
+    }
+
+    .ev-label {
+      font-size: clamp(.7rem, 1.8vw, 1.85rem);
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: .4rem;
+    }
+    .ev-value {
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      color: var(--cream);
+      margin-bottom: .2rem;
+    }
+    .ev-sub {
+      font-size: clamp(.85rem, 2vw, 1.1rem);
+      color: rgba(250,248,242,.65);
+      font-style: italic;
+    }
+
+    .closing {
+      margin-top: 2.2rem;
+      padding-top: 1.8rem;
+      border-top: 1px solid rgba(201,168,76,.3);
+      font-size: clamp(1rem, 2.2vw, 1.25rem);
+      font-style: italic;
+      color: rgba(250,248,242,.8);
+    }
+
+    /* ── FLOATING PETALS (CSS only) ─────────────── */
+    .petal {
+      position: fixed;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 999;
+      animation: floatPetal linear infinite;
+    }
+
+    @keyframes floatPetal {
+      0%   { opacity: 0; transform: translateY(0) scale(0) rotate(0deg); }
+      10%  { opacity: .7; }
+      90%  { opacity: .3; }
+      100% { opacity: 0; transform: translateY(-100vh) scale(1.4) rotate(720deg); }
+    }
+
+    /* ── SHARED ANIMATIONS ──────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────── */
+    @media (max-width: 600px) {
+      .name-overlay {
+        top: 61%;
+        left: 31%;
+        width: 54%;
+      }
+      .details-inner { padding: 2rem 1.1rem 2.4rem; }
+    }
+    @media (max-width: 400px) {
+      .name-overlay {
+        top: 51%;
+        left: 41%;
+        width: 56%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ① GREETING BANNER ──────────────────────── -->
+  <header id="greeting">
+    <p class="label">You are cordially invited</p>
+    <h1 class="guest-name" id="guestName">Dear Guest</h1>
+    <p class="tagline">to a joyous celebration of love</p>
+  </header>
+
+  <!-- ② INVITATION CARD ──────────────────────── -->
+  <section id="cards">
+    <div class="card-frame">
+
+      <!-- Top: front card with name overlay + inner card -->
+      <div class="card-row">
+
+        <!-- Card front – name overlay positioned here -->
+        <div class="card-panel">
+          <img
+            src="assets/1.jpeg"
+            alt="Wedding Card Front"
+            width="550" height="770"
+            fetchpriority="high"
+          >
+          <div class="name-overlay">
+            <span class="n-name" id="cardName"></span>
+            <span class="n-type" id="cardType"></span>
+          </div>
+        </div>
+
+        <!-- Card inner -->
+        <div class="card-panel">
+          <img
+            src="assets/2.jpeg"
+            alt="Wedding Card Inner"
+            width="550" height="770"
+            loading="lazy"
+          >
+        </div>
+
+      </div><!-- /.card-row -->
+
+      <!-- Full-width bottom panel (programme / back) -->
+      <div class="card-row-full">
+        <div class="card-panel">
+          <img
+            src="assets/3.jpeg"
+            alt="Wedding Programme"
+            width="1100" height="770"
+            loading="lazy"
+          >
+        </div>
+      </div>
+
+    </div><!-- /.card-frame -->
+  </section>
+
+  <!-- ③ EVENT DETAILS ─────────────────────────── -->
+  <section id="details">
+    <div class="details-inner">
+
+      <h2 class="couple">Altaf &nbsp; Ahmad <br>weds <br> Shaziya &nbsp; Khatoon</h2>
+
+      <div class="divider"></div>
+
+      <p class="ev-label">Walimah Ceremony</p>
+      <p class="ev-value">Wednesday, June 03<sup>rd</sup>, 2026</p>
+      <p class="ev-sub">6:00 PM onwards</p>
+
+      <div class="divider"></div>
+
+      <p class="ev-label">Venue</p>
+      <p class="ev-value">Village: Sehuda &nbsp; Post - Baghnagar</p>
+      <!-- <p class="ev-sub">Near Bada Hanuman Mandir, Sitapur Road, Lucknow</p> -->
+
+      <div class="divider"></div>
+
+      <p class="closing">We would be honoured by your gracious presence ✦</p>
+
+    </div>
+  </section>
+
+  <!-- ④ FLOATING SPARKLE PETALS (CSS-only, no perf cost) -->
+  <div id="petals" aria-hidden="true"></div>
+
+  <!-- ⑤ LIGHTWEIGHT SCRIPT ───────────────────── -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ── URL param helpers ── */
+      var params = new URLSearchParams(location.search);
+
+      function toTitleCase(str) {
+        return str.toLowerCase().replace(/\S+/g, function (w) {
+          return w.charAt(0).toUpperCase() + w.slice(1);
+        });
+      }
+
+      function getGuest() {
+        var raw = params.get('to');
+        if (!raw || !raw.trim()) return 'Guest';
+        return toTitleCase(decodeURIComponent(raw.trim()));
+      }
+
+      /* ── Personalise ── */
+      function personalise() {
+        var name  = getGuest();
+        var type  = params.get('type'); // family | single | <empty>
+
+        // Greeting header
+        document.getElementById('guestName').textContent = 'Dear ' + name;
+
+        // Card overlay
+        document.getElementById('cardName').textContent = name;
+        var typeEl = document.getElementById('cardType');
+        if (type === 'family')      typeEl.textContent = 'With Family';
+        else if (type === 'single') typeEl.textContent = '(Only)';
+
+        // Browser tab
+        document.title = 'Wedding Invitation – ' + name;
+      }
+
+      /* ── Sparkle petals (pure CSS animations, created once) ── */
+      function spawnPetals() {
+        var frag = document.createDocumentFragment();
+        var colors = ['#c9a84c','#d4b96a','#b76e79','#e2c97e'];
+        for (var i = 0; i < 28; i++) {
+          var p = document.createElement('div');
+          p.className = 'petal';
+          var size = (Math.random() * 4 + 3) + 'px';
+          p.style.cssText = [
+            'left:'             + (Math.random() * 100) + '%',
+            'bottom:'           + (Math.random() * -20 - 5) + 'px',
+            'width:'            + size,
+            'height:'           + size,
+            'background:'       + colors[i % colors.length],
+            'animation-duration:' + (Math.random() * 12 + 10) + 's',
+            'animation-delay:'  + (Math.random() * 14) + 's'
+          ].join(';');
+          frag.appendChild(p);
+        }
+        document.getElementById('petals').appendChild(frag);
+      }
+
+      /* ── Run ── */
+      personalise();
+      spawnPetals();
+
+    })();
+  </script>
+
+</body>
+</html>
